@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word of God and Salvation Arena (WOGSA)</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <link rel="stylesheet" href="./css/responsive.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <header>
+    <nav>
+      <div class="nav-logo">
+        <img src="./images/logo.png" alt="WOGSA Logo">
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html#home">Home</a></li>
+        <li class="dropdown">
+          <a href="#">About</a>
+          <div class="dropdown-content">
+            <a href="history.html">Our History</a>
+            <a href="mission-vision.html">Mission & Vision</a>
+            <a href="leadership.html">Leadership</a>
+          </div>
+        </li>
+        <li><a href="index.html#devotional">Daily Devotional</a></li>
+        <li class="dropdown">
+          <a href="#">Ministries</a>
+          <div class="dropdown-content">
+            <a href="index.html#youth">Youth Ministry</a>
+            <a href="index.html#women">Women's Ministry</a>
+            <a href="index.html#men">Men's Ministry</a>
+          </div>
+        </li>
+        <li><a href="index.html#prayer">Prayer & Counseling</a></li>
+        <li><a href="index.html#articles">Articles</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="contacts.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Welcome to WOGSA</h1>
+      <p>Transforming Lives Through God's Word</p>
+      <button id="read-more-btn" class="hero-btn">Read More About Us</button>
+    </div>
+  </section>
+
+  <!-- Scrolling Images Section -->
+  <!-- <div class="scrolling-images">
+    <img src="https://res.cloudinary.com/del59phog/image/upload/v1733075034/cd9374cc-a1d0-4340-a51e-38947c24532d.png" alt="Image 1">
+    <img src="https://res.cloudinary.com/del59phog/image/upload/v1733075034/cd9374cc-a1d0-4340-a51e-38947c24532d.png" alt="Image 2">
+    <img src="https://res.cloudinary.com/del59phog/image/upload/v1733075034/cd9374cc-a1d0-4340-a51e-38947c24532d.png" alt="Image 3">
+  </div> -->
+
+  <!-- Daily Devotional Section -->
+  <section id="devotional" class="content-section">
+    <h2>Daily Devotional</h2>
+    <div id="devotional-content" class="card">
+      <h3 id="devotional-title">Title Loading...</h3>
+      <p id="devotional-body">Content Loading...</p>
+    </div>
+  </section>
+
+  <!-- Prayer and Counseling Section -->
+  <div class="form-container">
+    <div class="form-header">
+      <h2>Prayer & Counseling Request</h2>
+    </div>
+    
+    <form id="prayer-form">
+      <div class="form-group">
+        <label class="form-label" for="name">Name</label>
+        <input type="text" class="form-input" id="name" placeholder="Enter your name" required>
+      </div>
+  
+      <div class="form-group">
+        <label class="form-label" for="email">Email</label>
+        <input type="email" class="form-input" id="email" placeholder="Enter your email" required>
+      </div>
+  
+      <div class="form-group">
+        <label class="form-label" for="request-type">Request Type</label>
+        <select class="form-select" id="request-type">
+          <option value="prayer">Prayer Request</option>
+          <option value="counseling">Counseling Session</option>
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <label class="form-label" for="prayer-request">Your Request</label>
+        <textarea class="form-input form-textarea" id="prayer-request" placeholder="Enter your request" required></textarea>
+      </div>
+  
+      <div id="counseling-options" class="form-group" style="display: none;">
+        <label class="form-label">Preferred Time Slot</label>
+        <div class="time-slots">
+          <label><input type="radio" name="time-slot" value="9:00 AM"> 9:00 AM</label>
+          <label><input type="radio" name="time-slot" value="10:00 AM"> 10:00 AM</label>
+          <label><input type="radio" name="time-slot" value="11:00 AM"> 11:00 AM</label>
+          <label><input type="radio" name="time-slot" value="2:00 PM"> 2:00 PM</label>
+          <label><input type="radio" name="time-slot" value="3:00 PM"> 3:00 PM</label>
+          <label><input type="radio" name="time-slot" value="4:00 PM"> 4:00 PM</label>
+        </div>
+      </div>
+  
+      <button type="submit" class="form-submit">Submit Request</button>
+    </form>
+  </div>
+  
+<!-- Articles Section -->
+<section id="articles" class="content-section">
+    <h2>Articles</h2>
+    <ul id="articles-list">
+      <!-- Dynamically loaded articles will appear here -->
+    </ul>
+  </section>
+  
+<!-- Modal -->
+<div id="articleModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2 id="modalTitle"></h2>
+      <p><strong>Category:</strong> <span id="modalCategory"></span></p>
+      <p><strong>Summary:</strong> <span id="modalSummary"></span></p>
+      <p id="modalContent"></p>
+    </div>
+  </div>
+  
+
+  <script src="./js/app.js"></script>
+</body>
+</html>

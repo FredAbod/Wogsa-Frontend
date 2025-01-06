@@ -1,0 +1,25 @@
+/* Responsive Design */
+@media (max-width: 768px) {
+    header {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .nav-links {
+      flex-direction: column;
+      margin: 1rem 0;
+    }
+  
+    .nav-links li {
+      margin: 0.5rem 0;
+    }
+  
+    #hero h1 {
+      font-size: 2rem;
+    }
+  
+    section {
+      padding: 1.5rem;
+    }
+  }
+  

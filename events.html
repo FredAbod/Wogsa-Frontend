@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <link rel="stylesheet" href="./css/responsive.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <header>
+    <nav>
+      <div class="nav-logo">
+        <img src="./images/logo.png" alt="WOGSA Logo">
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html#home">Home</a></li>
+        <li class="dropdown">
+          <a href="#">About</a>
+          <div class="dropdown-content">
+            <a href="history.html">Our History</a>
+            <a href="mission-vision.html">Mission & Vision</a>
+            <a href="leadership.html">Leadership</a>
+          </div>
+        </li>
+        <li><a href="index.html#devotional">Daily Devotional</a></li>
+        <li class="dropdown">
+          <a href="#">Ministries</a>
+          <div class="dropdown-content">
+            <a href="index.html#youth">Youth Ministry</a>
+            <a href="index.html#women">Women's Ministry</a>
+            <a href="index.html#men">Men's Ministry</a>
+          </div>
+        </li>
+        <li><a href="index.html#prayer">Prayer & Counseling</a></li>
+        <li><a href="index.html#articles">Articles</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Upcoming Events</h1>
+    <div id="events-container">
+      <p>Loading events...</p>
+    </div>
+  </main>
+
+  <script>
+    // Fetch events from the API
+    fetch('https://wogsa-backend.onrender.com/api/events') // Replace with your backend URL
+      .then((response) => response.json())
+      .then((events) => {
+        const container = document.getElementById('events-container');
+        container.innerHTML = ''; // Clear the loading text
+
+        if (events.length === 0) {
+          container.innerHTML = '<p>No upcoming events found.</p>';
+          return;
+        }
+
+        events.forEach((event) => {
+          const eventCard = document.createElement('div');
+          eventCard.className = 'event-card';
+
+          eventCard.innerHTML = `
+            <h2>${event.title}</h2>
+            <p><strong>Date:</strong> ${new Date(event.date).toLocaleDateString()}</p>
+            <p><strong>Location:</strong> ${event.location}</p>
+            <p>${event.description}</p>
+          `;
+          container.appendChild(eventCard);
+        });
+      })
+      .catch((error) => {
+        console.error('Error fetching events:', error);
+        document.getElementById('events-container').innerHTML = '<p>Failed to load events.</p>';
+      });
+  </script>
+</body>
+</html>
