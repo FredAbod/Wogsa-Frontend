@@ -1,21 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Mobile Navigation
+  // Hamburger Menu Toggle
   const hamburger = document.querySelector('.hamburger');
   const navLinks = document.querySelector('.nav-links');
 
-  function toggleNav() {
+  hamburger.addEventListener('click', () => {
     hamburger.classList.toggle('active');
     navLinks.classList.toggle('active');
-  }
+  });
 
-  function closeNav() {
-    hamburger.classList.remove('active');
-    navLinks.classList.remove('active');
-  }
-
-  hamburger.addEventListener('click', toggleNav);
-
-  // Handle dropdown menus
+  // Handle dropdown menus on mobile
   document.querySelectorAll('.dropdown').forEach(dropdown => {
     dropdown.addEventListener('click', (e) => {
       if (window.innerWidth <= 768) {
@@ -28,11 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Close menu when clicking outside
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.nav-container') && navLinks.classList.contains('active')) {
-      closeNav();
+      navLinks.classList.remove('active');
+      hamburger.classList.remove('active');
     }
   });
 
-  // Devotional Loading
+  // Load daily devotional
   async function loadDevotional() {
     try {
       const response = await fetch('https://wogsa-backend.onrender.com/api/devotional');
@@ -48,17 +42,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   loadDevotional();
 
-  // Prayer Form
+  // Prayer form handling
   const prayerForm = document.getElementById('prayer-form');
   const requestTypeSelect = document.getElementById('request-type');
   const counselingOptions = document.getElementById('counseling-options');
 
-  requestTypeSelect?.addEventListener('change', (e) => {
-    if (counselingOptions) {
-      counselingOptions.style.display = e.target.value === 'counseling' ? 'block' : 'none';
-    }
+  requestTypeSelect.addEventListener('change', (e) => {
+    counselingOptions.style.display = e.target.value === 'counseling' ? 'block' : 'none';
   });
 
+  // Form validation
   function validateForm(formData) {
     if (!formData.name.trim()) return 'Please enter your name';
     if (!formData.email.trim()) return 'Please enter your email';
@@ -69,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return null;
   }
 
-  prayerForm?.addEventListener('submit', async (event) => {
+  prayerForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const formData = {
@@ -77,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
       email: document.getElementById('email').value,
       requestType: requestTypeSelect.value,
       request: document.getElementById('prayer-request').value,
-      preferredTime: document.querySelector('input[name="time-slot"]:checked')?.value
+      preferredTime: document.querySelector('input[name="time-slot"]:checked')?.value || null
     };
 
     const validationError = validateForm(formData);
@@ -94,80 +87,73 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       const data = await response.json();
+      
       if (!response.ok) throw new Error(data.message);
       
       alert('Request submitted successfully!');
       prayerForm.reset();
-      if (counselingOptions) {
-        counselingOptions.style.display = 'none';
-      }
+      counselingOptions.style.display = 'none';
+      
     } catch (error) {
       alert(error.message || 'Failed to submit request. Please try again.');
       console.error('Submission error:', error);
     }
   });
 
-  // Articles
+  // Articles handling
   async function loadArticles() {
     try {
       const response = await fetch('https://wogsa-backend.onrender.com/api/articles');
       const articles = await response.json();
       const articlesList = document.getElementById('articles-list');
       
-      if (articlesList) {
-        articlesList.innerHTML = articles.map(article => `
-          <li onclick="openModal(${JSON.stringify(article).replace(/"/g, '&quot;')})">
-            <h3>${article.title}</h3>
-            <p>${article.summary?.substring(0, 100) || ''}...</p>
-          </li>
-        `).join('');
-      }
+      articlesList.innerHTML = articles.map(article => `
+        <li onclick="openModal('${article.id}')">
+          <h3>${article.title}</h3>
+          <p>${article.summary.substring(0, 100)}...</p>
+        </li>
+      `).join('');
+      
     } catch (error) {
       console.error('Error loading articles:', error);
-      if (document.getElementById('articles-list')) {
-        document.getElementById('articles-list').innerHTML = 
-          '<li>Unable to load articles. Please try again later.</li>';
-      }
+      document.getElementById('articles-list').innerHTML = 
+        '<li>Unable to load articles. Please try again later.</li>';
     }
   }
 
   loadArticles();
 
   // Modal handling
-  window.openModal = (articleData) => {
+  window.openModal = async (articleId) => {
     try {
-      const article = typeof articleData === 'string' ? JSON.parse(articleData) : articleData;
-      const modal = document.getElementById('articleModal');
+      const response = await fetch(`https://wogsa-backend.onrender.com/api/articles/${articleId}`);
+      const article = await response.json();
       
-      if (modal) {
-        document.getElementById('modalTitle').textContent = article.title || '';
-        document.getElementById('modalCategory').textContent = article.category || 'Uncategorized';
-        document.getElementById('modalSummary').textContent = article.summary || '';
-        document.getElementById('modalContent').textContent = article.content || '';
-        modal.style.display = 'flex';
-      }
+      document.getElementById('modalTitle').textContent = article.title;
+      document.getElementById('modalCategory').textContent = article.category;
+      document.getElementById('modalSummary').textContent = article.summary;
+      document.getElementById('modalContent').textContent = article.content;
+      document.getElementById('articleModal').style.display = 'flex';
+      
     } catch (error) {
-      console.error('Error displaying article:', error);
-      alert('Unable to display article content. Please try again.');
+      console.error('Error loading article:', error);
+      alert('Unable to load article. Please try again.');
     }
   };
 
   window.closeModal = () => {
-    const modal = document.getElementById('articleModal');
-    if (modal) {
-      modal.style.display = 'none';
-    }
+    document.getElementById('articleModal').style.display = 'none';
   };
 
-  // Modal click outside
-  document.getElementById('articleModal')?.addEventListener('click', (e) => {
+  // Close modal when clicking outside
+  document.getElementById('articleModal').addEventListener('click', (e) => {
     if (e.target === e.currentTarget) {
       closeModal();
     }
   });
 
   // Read more button
-  document.getElementById('read-more-btn')?.addEventListener('click', async () => {
+  document.getElementById('read-more-btn').addEventListener('click', async () => {
     try {
       const response = await fetch('/api/about-church');
       const data = await response.json();
@@ -178,11 +164,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Escape key handler
+  // Handle escape key for modal
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeModal();
-      closeNav();
     }
   });
 });

@@ -1,61 +1,62 @@
-/* Mobile navigation fixes */
+/* Hamburger menu styles */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  z-index: 1001;
+  padding: 10px;
+}
+
+.hamburger span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: var(--primary);
+  transition: all 0.3s ease;
+}
+
+/* Mobile styles */
 @media (max-width: 768px) {
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--container-padding);
+    position: relative;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  /* Animate hamburger to X when menu is active */
+  .hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
   .nav-links {
-    background: white;
-    width: 100%;
+    display: none;
     position: fixed;
     top: 70px;
-    left: -100%;
+    left: 0;
+    width: 100%;
     height: calc(100vh - 70px);
-    transition: 0.3s;
-    padding: 20px;
+    background: var(--white);
+    padding: 1rem 0;
     overflow-y: auto;
   }
 
   .nav-links.active {
-    left: 0;
+    display: flex;
+    flex-direction: column;
   }
-
-  .nav-links li {
-    margin: 15px 0;
-  }
-
-  .dropdown-content {
-    position: static;
-    box-shadow: none;
-    padding-left: 20px;
-    background: #f8f9fa;
-    border-radius: 8px;
-  }
-
-  /* Close button styling */
-  .nav-close {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    font-size: 24px;
-    cursor: pointer;
-  }
-}
-
-/* Form container mobile fixes */
-.form-container {
-  margin: 10px;
-  padding: 20px;
-  border-radius: 12px;
-}
-
-.form-input, 
-.form-textarea {
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-
-.form-submit {
-  width: 100%;
-  padding: 14px;
-  margin-top: 15px;
 }
