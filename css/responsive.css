@@ -1,81 +1,62 @@
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    background: var(--white);
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  .nav-links.active {
-    display: flex;
-  }
-  .nav-container {
-    justify-content: space-between;
-  }
-  .hamburger {
-    display: block;
-    cursor: pointer;
-  }
-}
-/* Hide hamburger by default, show it on smaller screens */
+/* Hamburger menu styles */
 .hamburger {
   display: none;
   flex-direction: column;
+  gap: 6px;
   cursor: pointer;
-  gap: 5px;
+  z-index: 1001;
+  padding: 10px;
 }
 
 .hamburger span {
+  display: block;
   width: 25px;
   height: 3px;
-  background: var(--text);
+  background: var(--primary);
   transition: all 0.3s ease;
 }
 
+/* Mobile styles */
 @media (max-width: 768px) {
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--container-padding);
+    position: relative;
+  }
+
   .hamburger {
     display: flex;
   }
 
+  /* Animate hamburger to X when menu is active */
+  .hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
   .nav-links {
     display: none;
-    flex-direction: column;
-    background: var(--white);
-    position: absolute;
-    top: 100%;
+    position: fixed;
+    top: 70px;
     left: 0;
     width: 100%;
-    z-index: 1000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: calc(100vh - 70px);
+    background: var(--white);
     padding: 1rem 0;
+    overflow-y: auto;
   }
 
   .nav-links.active {
     display: flex;
-  }
-
-  .nav-links a {
-    padding: 1rem 2rem;
-  }
-
-  .dropdown-content {
-    position: relative;
-  }
-}
-@media (max-width: 768px) {
-  .hero {
-    padding: 4rem 1rem;
-  }
-
-  .hero h1 {
-    font-size: 2.5rem;
-  }
-
-  .hero p {
-    font-size: 1rem;
+    flex-direction: column;
   }
 }
