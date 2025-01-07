@@ -60,3 +60,20 @@
     flex-direction: column;
   }
 }
+
+/* Prevent horizontal scrolling */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* Constrain container widths to viewport */
+.nav-container,
+.hero,
+.content-section {
+  max-width: 100%;
+  overflow-x: hidden;
+}
