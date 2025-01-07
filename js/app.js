@@ -101,45 +101,42 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Articles handling
-  async function loadArticles() {
-    try {
-      const response = await fetch('https://wogsa-backend.onrender.com/api/articles');
-      const articles = await response.json();
-      const articlesList = document.getElementById('articles-list');
-      
-      articlesList.innerHTML = articles.map(article => `
-        <li onclick="openModal('${article.id}')">
-          <h3>${article.title}</h3>
-          <p>${article.summary.substring(0, 100)}...</p>
-        </li>
-      `).join('');
-      
-    } catch (error) {
-      console.error('Error loading articles:', error);
-      document.getElementById('articles-list').innerHTML = 
-        '<li>Unable to load articles. Please try again later.</li>';
-    }
+ // Replace the existing articles handling code with this:
+
+async function loadArticles() {
+  try {
+    const response = await fetch('https://wogsa-backend.onrender.com/api/articles');
+    const articles = await response.json();
+    const articlesList = document.getElementById('articles-list');
+    
+    articlesList.innerHTML = articles.map(article => `
+      <li onclick="openModal('${article.id}', ${JSON.stringify(article).replace(/"/g, '&quot;')})">
+        <h3>${article.title}</h3>
+        <p>${article.summary?.substring(0, 100) || ''}...</p>
+      </li>
+    `).join('');
+    
+  } catch (error) {
+    console.error('Error loading articles:', error);
+    articlesList.innerHTML = '<li>Unable to load articles. Please try again later.</li>';
   }
-
-  loadArticles();
-
-  // Modal handling
-  window.openModal = async (articleId) => {
-    try {
-      const response = await fetch(`https://wogsa-backend.onrender.com/api/articles/${articleId}`);
-      const article = await response.json();
-      
-      document.getElementById('modalTitle').textContent = article.title;
-      document.getElementById('modalCategory').textContent = article.category;
-      document.getElementById('modalSummary').textContent = article.summary;
-      document.getElementById('modalContent').textContent = article.content;
-      document.getElementById('articleModal').style.display = 'flex';
-      
-    } catch (error) {
-      console.error('Error loading article:', error);
-      alert('Unable to load article. Please try again.');
-    }
-  };
+}
+loadArticles()
+// Updated modal handling
+window.openModal = (id, articleData) => {
+  try {
+    const article = typeof articleData === 'string' ? JSON.parse(articleData) : articleData;
+    
+    document.getElementById('modalTitle').textContent = article.title;
+    document.getElementById('modalCategory').textContent = article.category || 'Uncategorized';
+    document.getElementById('modalSummary').textContent = article.summary || '';
+    document.getElementById('modalContent').textContent = article.content || '';
+    document.getElementById('articleModal').style.display = 'flex';
+  } catch (error) {
+    console.error('Error displaying article:', error);
+    alert('Unable to display article content. Please try again.');
+  }
+};
 
   window.closeModal = () => {
     document.getElementById('articleModal').style.display = 'none';
