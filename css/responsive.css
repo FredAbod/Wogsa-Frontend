@@ -15,32 +15,43 @@
   background: var(--primary);
   transition: all 0.3s ease;
 }
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 
-/* Mobile styles */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 200px;
+  background: linear-gradient(to bottom right, #ffffff, #f8fafc);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+.dropdown:hover .dropdown-content,
+.dropdown.active .dropdown-content {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Enhanced mobile styles */
 @media (max-width: 768px) {
-  .nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--container-padding);
-    position: relative;
-  }
-
   .hamburger {
     display: flex;
-  }
-
-  /* Animate hamburger to X when menu is active */
-  .hamburger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-  }
-
-  .hamburger.active span:nth-child(2) {
-    opacity: 0;
-  }
-
-  .hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
   }
 
   .nav-links {
@@ -50,8 +61,8 @@
     left: 0;
     width: 100%;
     height: calc(100vh - 70px);
-    background: var(--white);
-    padding: 1rem 0;
+    background: linear-gradient(135deg, #ffffff, #f8fafc);
+    padding: 2rem;
     overflow-y: auto;
   }
 
@@ -59,21 +70,20 @@
     display: flex;
     flex-direction: column;
   }
+
+  .dropdown-content {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    background: transparent;
+    box-shadow: none;
+    padding-left: 1rem;
+    display: none;
+  }
+
+  .dropdown.active .dropdown-content {
+    display: block;
+  }
 }
 
-/* Prevent horizontal scrolling */
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  overflow-x: hidden;
-  box-sizing: border-box;
-}
-
-/* Constrain container widths to viewport */
-.nav-container,
-.hero,
-.content-section {
-  max-width: 100%;
-  overflow-x: hidden;
-}

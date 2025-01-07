@@ -1,32 +1,46 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Hamburger Menu Toggle
-  const hamburger = document.querySelector('.hamburger');
-  const navLinks = document.querySelector('.nav-links');
+  /* Updated Navigation */
+  const initNavigation = () => {
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    const dropdowns = document.querySelectorAll('.dropdown');
 
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    navLinks.classList.toggle('active');
-  });
+    const toggleMenu = () => {
+      hamburger.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    };
 
-  // Handle dropdown menus on mobile
-  document.querySelectorAll('.dropdown').forEach(dropdown => {
-    dropdown.addEventListener('click', (e) => {
+    const handleDropdown = (dropdown) => {
+      const link = dropdown.querySelector('a');
+      const content = dropdown.querySelector('.dropdown-content');
+
       if (window.innerWidth <= 768) {
-        e.preventDefault();
-        dropdown.classList.toggle('active');
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          dropdown.classList.toggle('active');
+          dropdowns.forEach(d => {
+            if (d !== dropdown) d.classList.remove('active');
+          });
+        });
+      }
+    };
+
+    hamburger.addEventListener('click', toggleMenu);
+    dropdowns.forEach(handleDropdown);
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.nav-container')) {
+        navLinks.classList.remove('active');
+        hamburger.classList.remove('active');
+        dropdowns.forEach(d => d.classList.remove('active'));
       }
     });
-  });
+  };
 
-  // Close menu when clicking outside
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.nav-container') && navLinks.classList.contains('active')) {
-      navLinks.classList.remove('active');
-      hamburger.classList.remove('active');
-    }
-  });
+  initNavigation();
 
-  // Load daily devotional
+  /* Load daily devotional */
   async function loadDevotional() {
     try {
       const response = await fetch('https://wogsa-backend.onrender.com/api/devotional');
@@ -42,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   loadDevotional();
 
-  // Prayer form handling
+  /* Prayer form handling */
   const prayerForm = document.getElementById('prayer-form');
   const requestTypeSelect = document.getElementById('request-type');
   const counselingOptions = document.getElementById('counseling-options');
@@ -51,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
     counselingOptions.style.display = e.target.value === 'counseling' ? 'block' : 'none';
   });
 
-  // Form validation
   function validateForm(formData) {
     if (!formData.name.trim()) return 'Please enter your name';
     if (!formData.email.trim()) return 'Please enter your email';
@@ -87,56 +100,56 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       const data = await response.json();
-      
+
       if (!response.ok) throw new Error(data.message);
-      
+
       alert('Request submitted successfully!');
       prayerForm.reset();
       counselingOptions.style.display = 'none';
-      
+
     } catch (error) {
       alert(error.message || 'Failed to submit request. Please try again.');
       console.error('Submission error:', error);
     }
   });
 
-  // Articles handling
- // Replace the existing articles handling code with this:
+  /* Load articles */
+  async function loadArticles() {
+    try {
+      const response = await fetch('https://wogsa-backend.onrender.com/api/articles');
+      const articles = await response.json();
+      const articlesList = document.getElementById('articles-list');
 
-async function loadArticles() {
-  try {
-    const response = await fetch('https://wogsa-backend.onrender.com/api/articles');
-    const articles = await response.json();
-    const articlesList = document.getElementById('articles-list');
-    
-    articlesList.innerHTML = articles.map(article => `
-      <li onclick="openModal('${article.id}', ${JSON.stringify(article).replace(/"/g, '&quot;')})">
-        <h3>${article.title}</h3>
-        <p>${article.summary?.substring(0, 100) || ''}...</p>
-      </li>
-    `).join('');
-    
-  } catch (error) {
-    console.error('Error loading articles:', error);
-    articlesList.innerHTML = '<li>Unable to load articles. Please try again later.</li>';
+      articlesList.innerHTML = articles.map(article => `
+        <li onclick="openModal('${article.id}', ${JSON.stringify(article).replace(/"/g, '&quot;')})">
+          <h3>${article.title}</h3>
+          <p>${article.summary?.substring(0, 100) || ''}...</p>
+        </li>
+      `).join('');
+
+    } catch (error) {
+      console.error('Error loading articles:', error);
+      articlesList.innerHTML = '<li>Unable to load articles. Please try again later.</li>';
+    }
   }
-}
-loadArticles()
-// Updated modal handling
-window.openModal = (id, articleData) => {
-  try {
-    const article = typeof articleData === 'string' ? JSON.parse(articleData) : articleData;
-    
-    document.getElementById('modalTitle').textContent = article.title;
-    document.getElementById('modalCategory').textContent = article.category || 'Uncategorized';
-    document.getElementById('modalSummary').textContent = article.summary || '';
-    document.getElementById('modalContent').textContent = article.content || '';
-    document.getElementById('articleModal').style.display = 'flex';
-  } catch (error) {
-    console.error('Error displaying article:', error);
-    alert('Unable to display article content. Please try again.');
-  }
-};
+
+  loadArticles();
+
+  /* Modal handling */
+  window.openModal = (id, articleData) => {
+    try {
+      const article = typeof articleData === 'string' ? JSON.parse(articleData) : articleData;
+
+      document.getElementById('modalTitle').textContent = article.title;
+      document.getElementById('modalCategory').textContent = article.category || 'Uncategorized';
+      document.getElementById('modalSummary').textContent = article.summary || '';
+      document.getElementById('modalContent').textContent = article.content || '';
+      document.getElementById('articleModal').style.display = 'flex';
+    } catch (error) {
+      console.error('Error displaying article:', error);
+      alert('Unable to display article content. Please try again.');
+    }
+  };
 
   window.closeModal = () => {
     document.getElementById('articleModal').style.display = 'none';

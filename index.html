@@ -45,7 +45,7 @@
       </ul>
     </div>
   </header>
-  
+
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
@@ -54,13 +54,6 @@
       <button id="read-more-btn" class="hero-btn">Read More About Us</button>
     </div>
   </section>
-
-  <!-- Scrolling Images Section -->
-  <!-- <div class="scrolling-images">
-    <img src="https://res.cloudinary.com/del59phog/image/upload/v1733075034/cd9374cc-a1d0-4340-a51e-38947c24532d.png" alt="Image 1">
-    <img src="https://res.cloudinary.com/del59phog/image/upload/v1733075034/cd9374cc-a1d0-4340-a51e-38947c24532d.png" alt="Image 2">
-    <img src="https://res.cloudinary.com/del59phog/image/upload/v1733075034/cd9374cc-a1d0-4340-a51e-38947c24532d.png" alt="Image 3">
-  </div> -->
 
   <!-- Daily Devotional Section -->
   <section id="devotional" class="content-section">
@@ -104,15 +97,34 @@
       <div id="counseling-options" class="form-group" style="display: none;">
         <label class="form-label">Preferred Time Slot</label>
         <div class="time-slots">
-          <label><input type="radio" name="time-slot" value="9:00 AM"> 9:00 AM</label>
-          <label><input type="radio" name="time-slot" value="10:00 AM"> 10:00 AM</label>
-          <label><input type="radio" name="time-slot" value="11:00 AM"> 11:00 AM</label>
-          <label><input type="radio" name="time-slot" value="2:00 PM"> 2:00 PM</label>
-          <label><input type="radio" name="time-slot" value="3:00 PM"> 3:00 PM</label>
-          <label><input type="radio" name="time-slot" value="4:00 PM"> 4:00 PM</label>
+          <div class="time-slot-box">
+            <input type="radio" id="slot-9am" name="time-slot" value="9:00 AM">
+            <label for="slot-9am">9:00 AM</label>
+          </div>
+          <div class="time-slot-box">
+            <input type="radio" id="slot-10am" name="time-slot" value="10:00 AM">
+            <label for="slot-10am">10:00 AM</label>
+          </div>
+          <div class="time-slot-box">
+            <input type="radio" id="slot-11am" name="time-slot" value="11:00 AM">
+            <label for="slot-11am">11:00 AM</label>
+          </div>
+          <div class="time-slot-box">
+            <input type="radio" id="slot-2pm" name="time-slot" value="2:00 PM">
+            <label for="slot-2pm">2:00 PM</label>
+          </div>
+          <div class="time-slot-box">
+            <input type="radio" id="slot-3pm" name="time-slot" value="3:00 PM">
+            <label for="slot-3pm">3:00 PM</label>
+          </div>
+          <div class="time-slot-box">
+            <input type="radio" id="slot-4pm" name="time-slot" value="4:00 PM">
+            <label for="slot-4pm">4:00 PM</label>
+          </div>
         </div>
       </div>
-  
+      
+
       <button type="submit" class="form-submit">Submit Request</button>
     </form>
   </div>
