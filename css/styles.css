@@ -157,7 +157,7 @@
   }
   
   /* Forms */
-  .form-container {
+  /* .form-container {
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
@@ -239,7 +239,7 @@
   .form-submit:hover {
     background-color: #0056b3;
   }
-  
+   */
   
   input, textarea {
     padding: 0.75rem;
