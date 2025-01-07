@@ -26,6 +26,10 @@
     padding: 0.75rem 2rem;
   }
   
+.article1{
+  list-style-type: none;
+}
+
   .nav-container {
     max-width: 1200px;
     margin: 0 auto;

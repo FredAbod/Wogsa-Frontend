@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
       articlesList.innerHTML = articles
         .map(
           (article) => `
-        <li onclick="openModal('${article.id}', ${JSON.stringify(
+        <li class="article1" onclick="openModal('${article.id}', ${JSON.stringify(
             article
           ).replace(/"/g, "&quot;")})">
           <h3>${article.title}</h3>
